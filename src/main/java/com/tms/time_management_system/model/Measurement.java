@@ -10,10 +10,6 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Entity
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
 public class Measurement
 {
     @Id
@@ -24,4 +20,46 @@ public class Measurement
 
     @ManyToMany
     private List<User> users;
+
+    public Measurement() {
+    }
+
+    public Measurement(Integer id, LocalTime loginTime, LocalTime logoutTime, List<User> users) {
+        this.id = id;
+        this.loginTime = loginTime;
+        this.logoutTime = logoutTime;
+        this.users = users;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public LocalTime getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(LocalTime loginTime) {
+        this.loginTime = loginTime;
+    }
+
+    public LocalTime getLogoutTime() {
+        return logoutTime;
+    }
+
+    public void setLogoutTime(LocalTime logoutTime) {
+        this.logoutTime = logoutTime;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 }

@@ -5,17 +5,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-public class UserLogin
+public class UserDTO
 {
     private String email;
-    private String password;
+    private String role;
 
-    public UserLogin() {
+    public UserDTO() {
     }
 
-    public UserLogin(String email, String password) {
+    public UserDTO(String email, String role) {
         this.email = email;
-        this.password = password;
+        this.role = role;
     }
 
     public String getEmail() {
@@ -26,11 +26,11 @@ public class UserLogin
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getRole() {
+        return role;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setRole(String role) {
+        this.role = role;
     }
 }
