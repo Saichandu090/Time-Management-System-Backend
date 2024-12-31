@@ -1,33 +1,33 @@
 package com.tms.time_management_system.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalTime;
 import java.util.List;
 
 @Entity
-public class Measurement
+public class Session
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private LocalTime loginTime;
     private LocalTime logoutTime;
+    private int noOfBreaks;
+    private String breakTime;
 
     @ManyToMany
     private List<User> users;
 
-    public Measurement() {
+    public Session() {
     }
 
-    public Measurement(Integer id, LocalTime loginTime, LocalTime logoutTime, List<User> users) {
+    public Session(Integer id, LocalTime loginTime, LocalTime logoutTime, int noOfBreaks, String breakTime, List<User> users) {
         this.id = id;
         this.loginTime = loginTime;
         this.logoutTime = logoutTime;
+        this.noOfBreaks = noOfBreaks;
+        this.breakTime = breakTime;
         this.users = users;
     }
 
@@ -61,5 +61,21 @@ public class Measurement
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public int getNoOfBreaks() {
+        return noOfBreaks;
+    }
+
+    public void setNoOfBreaks(int noOfBreaks) {
+        this.noOfBreaks = noOfBreaks;
+    }
+
+    public String getBreakTime() {
+        return breakTime;
+    }
+
+    public void setBreakTime(String breakTime) {
+        this.breakTime = breakTime;
     }
 }

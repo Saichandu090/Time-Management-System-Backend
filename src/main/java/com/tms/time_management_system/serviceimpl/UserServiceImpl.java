@@ -5,10 +5,10 @@ import com.tms.time_management_system.dto.UserDTO;
 import com.tms.time_management_system.dto.UserLogin;
 import com.tms.time_management_system.dto.UserRegisterDTO;
 import com.tms.time_management_system.mapper.UserMapper;
-import com.tms.time_management_system.model.Measurement;
+import com.tms.time_management_system.model.Session;
 import com.tms.time_management_system.model.User;
 import com.tms.time_management_system.repository.UserRepository;
-import com.tms.time_management_system.service.MeasurementService;
+import com.tms.time_management_system.service.SessionService;
 import com.tms.time_management_system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService
     private final UserMapper USERMAPPER=new UserMapper();
 
     @Autowired
-    private MeasurementService measurementService;
+    private SessionService sessionService;
 
     @Autowired
     private UserRepository userRepository;
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLogin.getEmail(),userLogin.getPassword()));
         if(authentication.isAuthenticated())
         {
-            Measurement rs=measurementService.userLoggedIn(userLogin.getEmail());
+            Session rs= sessionService.userLoggedIn(userLogin.getEmail());
             UserDetails userDetails=context.getBean(MyUserDetailsService.class).loadUserByUsername(userLogin.getEmail());
             String token=jwtService.generateToken(userLogin.getEmail());
             String role=null;

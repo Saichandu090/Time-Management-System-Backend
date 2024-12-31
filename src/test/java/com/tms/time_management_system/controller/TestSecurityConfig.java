@@ -13,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class TestSecurityConfig
 {
-    @Bean
+    @Bean(name = "testAuthenticationManager")
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception
     {
         return configuration.getAuthenticationManager();

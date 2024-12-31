@@ -1,11 +1,8 @@
 package com.tms.time_management_system.controller;
 
-import com.tms.time_management_system.dto.JsonResponse;
-import com.tms.time_management_system.dto.UserDTO;
-import com.tms.time_management_system.dto.UserLogin;
-import com.tms.time_management_system.dto.UserRegisterDTO;
+import com.tms.time_management_system.dto.*;
 import com.tms.time_management_system.mapper.UserMapper;
-import com.tms.time_management_system.service.MeasurementService;
+import com.tms.time_management_system.service.SessionService;
 import com.tms.time_management_system.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +22,7 @@ public class UserController
     private UserMapper userMapper;
 
     @Autowired
-    private MeasurementService measurementService;
+    private SessionService sessionService;
 
     @PostMapping("/register")
     public ResponseEntity<JsonResponse> registerUser(@Valid @RequestBody UserRegisterDTO registerDTO)
@@ -39,13 +36,13 @@ public class UserController
         return userService.loginUser(userLogin);
     }
 
-    @PutMapping("/logout/{loginId}")
-    private ResponseEntity<?> onLogOut(@RequestHeader("Authorization")String authHeader, @PathVariable int loginId, @RequestBody UserDTO userDTO)
+    @PutMapping("/logout")
+    private ResponseEntity<?> onLogOut(@RequestHeader("Authorization")String authHeader, @RequestBody LogoutDTO logoutDTO)
     {
         UserDetails userDetails=userMapper.validateUser(authHeader);
         if(userDetails!=null)
         {
-            return measurementService.userLoggedOut(loginId);
+            return sessionService.userLoggedOut(logoutDTO);
         }
         return new ResponseEntity<>(new JsonResponse(false,"Logout Failed",null), HttpStatus.BAD_REQUEST);
     }
