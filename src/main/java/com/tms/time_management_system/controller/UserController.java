@@ -36,14 +36,36 @@ public class UserController
         return userService.loginUser(userLogin);
     }
 
-    @PutMapping("/logout")
-    private ResponseEntity<?> onLogOut(@RequestHeader("Authorization")String authHeader, @RequestBody LogoutDTO logoutDTO)
+    @DeleteMapping("/logout/{loginId}")
+    private ResponseEntity<?> onLogOut(@RequestHeader("Authorization")String authHeader, @PathVariable Integer loginId)
     {
         UserDetails userDetails=userMapper.validateUser(authHeader);
         if(userDetails!=null)
         {
-            return sessionService.userLoggedOut(logoutDTO);
+            return sessionService.userLoggedOut(loginId);
         }
         return new ResponseEntity<>(new JsonResponse(false,"Logout Failed",null), HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/pause")
+    public ResponseEntity<?> onPause(@RequestHeader("Authorization")String authHeader,@RequestBody LogoutDTO logoutDTO)
+    {
+        UserDetails userDetails=userMapper.validateUser(authHeader);
+        if(userDetails!=null)
+        {
+            return sessionService.pauseSession(logoutDTO.getLoginId());
+        }
+        return new ResponseEntity<>(new JsonResponse(false,"Request Failed",null), HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/play")
+    public ResponseEntity<?> onPlay(@RequestHeader("Authorization")String authHeader,@RequestBody LogoutDTO logoutDTO)
+    {
+        UserDetails userDetails=userMapper.validateUser(authHeader);
+        if(userDetails!=null)
+        {
+            return sessionService.playSession(logoutDTO.getLoginId());
+        }
+        return new ResponseEntity<>(new JsonResponse(false,"Request Failed",null), HttpStatus.BAD_REQUEST);
     }
 }

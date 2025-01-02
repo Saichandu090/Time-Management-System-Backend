@@ -8,5 +8,9 @@ public interface SessionService
 {
     Session userLoggedIn(String email);
 
-    ResponseEntity<?> userLoggedOut(LogoutDTO logoutDTO);
+    ResponseEntity<?> userLoggedOut(Integer loginId);
+
+    ResponseEntity<?> pauseSession(Integer loginId);
+
+    ResponseEntity<?> playSession(Integer loginId);
 }

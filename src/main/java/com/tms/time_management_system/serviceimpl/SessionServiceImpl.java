@@ -13,8 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SessionServiceImpl implements SessionService
@@ -39,13 +41,38 @@ public class SessionServiceImpl implements SessionService
     }
 
     @Override
-    public ResponseEntity<?> userLoggedOut(LogoutDTO logoutDTO)
+    public ResponseEntity<?> userLoggedOut(Integer loginId)
     {
-        Session session= sessionRepository.findById(logoutDTO.getLoginId()).orElseThrow(()->new RuntimeException("Session not Found"));
+        Session session= sessionRepository.findById(loginId).orElseThrow(()->new RuntimeException("Session not Found"));
         session.setLogoutTime(LocalTime.now());
-        session.setBreakTime(logoutDTO.getBreakTime());
-        session.setNoOfBreaks(logoutDTO.getNoOfBreaks());
+
+        Duration getSessionTime=Duration.between(session.getLoginTime(),LocalTime.now());
+        session.setSessionTime(getSessionTime);
         sessionRepository.save(session);
         return new ResponseEntity<>(new JsonResponse(true,"Logout success",null), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> pauseSession(Integer loginId)
+    {
+        Session session= sessionRepository.findById(loginId).orElseThrow(()->new RuntimeException("Session not Found"));
+        session.setNoOfBreaks(session.getNoOfBreaks()+1);
+        session.setPauseTime(LocalTime.now());
+        Session rs=sessionRepository.save(session);
+        return new ResponseEntity<>(new JsonResponse(true,"Breaktime started", null),HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> playSession(Integer loginId)
+    {
+        Session session= sessionRepository.findById(loginId).orElseThrow(()->new RuntimeException("Session not Found"));
+        Duration getBreakTime=Duration.between(session.getPauseTime(),LocalTime.now());
+        if(session.getBreakTime()!=null){
+            session.setBreakTime(session.getBreakTime().plus(getBreakTime));
+        }else{
+            session.setBreakTime(getBreakTime);
+        }
+        Session rs=sessionRepository.save(session);
+        return new ResponseEntity<>(new JsonResponse(true,"Breaktime ended",null),HttpStatus.OK);
     }
 }
