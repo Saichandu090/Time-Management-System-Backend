@@ -9,13 +9,15 @@ public class UserDTO
 {
     private String email;
     private String role;
+    private int loginId;
 
     public UserDTO() {
     }
 
-    public UserDTO(String email, String role) {
+    public UserDTO(String email, String role, int loginId) {
         this.email = email;
         this.role = role;
+        this.loginId = loginId;
     }
 
     public String getEmail() {
@@ -32,5 +34,13 @@ public class UserDTO
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public int getLoginId() {
+        return loginId;
+    }
+
+    public void setLoginId(int loginId) {
+        this.loginId = loginId;
     }
 }

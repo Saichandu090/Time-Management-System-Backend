@@ -1,10 +1,6 @@
 package com.tms.time_management_system.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,12 +19,12 @@ public class User
     private String role;
 
     @ManyToMany(mappedBy = "users")
-    private List<Measurement> measurements;
+    private List<Session> sessions;
 
     public User() {
     }
 
-    public User(Integer id, String firstName, String lastName, LocalDate dob, String email, String password, String role, List<Measurement> measurements) {
+    public User(Integer id, String firstName, String lastName, LocalDate dob, String email, String password, String role, List<Session> sessions) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,7 +32,7 @@ public class User
         this.email = email;
         this.password = password;
         this.role = role;
-        this.measurements = measurements;
+        this.sessions = sessions;
     }
 
     public Integer getId() {
@@ -95,11 +91,11 @@ public class User
         this.role = role;
     }
 
-    public List<Measurement> getMeasurements() {
-        return measurements;
+    public List<Session> getMeasurements() {
+        return sessions;
     }
 
-    public void setMeasurements(List<Measurement> measurements) {
-        this.measurements = measurements;
+    public void setMeasurements(List<Session> sessions) {
+        this.sessions = sessions;
     }
 }
