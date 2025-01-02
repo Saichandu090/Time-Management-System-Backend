@@ -20,4 +20,10 @@ public class GlobalExceptionHandler
     {
         return new ResponseEntity<>(new JsonResponse(false,exception.getMessage(),null),HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(SessionNotFoundException.class)
+    public ResponseEntity<JsonResponse> sessionNotFound(SessionNotFoundException exception)
+    {
+        return new ResponseEntity<>(new JsonResponse(false,exception.getMessage(),null),HttpStatus.BAD_REQUEST);
+    }
 }

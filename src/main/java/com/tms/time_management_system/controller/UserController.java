@@ -80,4 +80,15 @@ public class UserController
         }
         return new ResponseEntity<>(new JsonResponse(false,"Request Failed",null), HttpStatus.BAD_REQUEST);
     }
+
+    @DeleteMapping("/deleteSession/{sessionId}")
+    public ResponseEntity<?> deleteSession(@RequestHeader("Authorization")String authHeader,@PathVariable int sessionId)
+    {
+        UserDetails userDetails=userMapper.validateUser(authHeader);
+        if(userDetails!=null && userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN")))
+        {
+            return sessionService.deleteSession(sessionId);
+        }
+        return new ResponseEntity<>(new JsonResponse(false,"Request Failed",null), HttpStatus.BAD_REQUEST);
+    }
 }

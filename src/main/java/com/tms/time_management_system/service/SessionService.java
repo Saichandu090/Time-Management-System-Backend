@@ -15,4 +15,6 @@ public interface SessionService
     ResponseEntity<?> playSession(Integer loginId);
 
     ResponseEntity<?> getAllSessions();
+
+    ResponseEntity<?> deleteSession(int sessionId);
 }

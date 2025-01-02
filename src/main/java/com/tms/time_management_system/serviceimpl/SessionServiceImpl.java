@@ -2,6 +2,7 @@ package com.tms.time_management_system.serviceimpl;
 
 import com.tms.time_management_system.dto.JsonResponse;
 import com.tms.time_management_system.dto.SessionResponseDTO;
+import com.tms.time_management_system.exception.SessionNotFoundException;
 import com.tms.time_management_system.exception.UserNotFoundException;
 import com.tms.time_management_system.model.Session;
 import com.tms.time_management_system.model.User;
@@ -17,6 +18,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SessionServiceImpl implements SessionService
@@ -79,7 +81,29 @@ public class SessionServiceImpl implements SessionService
     public ResponseEntity<?> getAllSessions()
     {
         List<Session> allSessions=sessionRepository.findAll();
-        List<SessionResponseDTO> responseDTOS=allSessions.stream().map(s->new SessionResponseDTO(s.getId(),s.getLoginTime(),s.getLogoutTime(),s.getNoOfBreaks(),s.getSessionTime(),s.getBreakTime())).toList();
+        List<SessionResponseDTO> responseDTOS = allSessions.stream()
+                .map(s -> {
+                    User user = s.getUsers().stream().findFirst()
+                            .orElseThrow(() -> new RuntimeException("User not found"));
+                    return new SessionResponseDTO(
+                            s.getId(),
+                            s.getLoginTime(),
+                            s.getLogoutTime(),
+                            s.getNoOfBreaks(),
+                            s.getSessionTime(),
+                            s.getBreakTime(),
+                            user.getEmail()
+                    );
+                })
+                .collect(Collectors.toList());
         return new ResponseEntity<>(new JsonResponse(true,"All sessions Retrieved",responseDTOS),HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> deleteSession(int sessionId)
+    {
+        Session session=sessionRepository.findById(sessionId).orElseThrow(()->new SessionNotFoundException("Session not found"));
+        sessionRepository.delete(session);
+        return new ResponseEntity<>(new JsonResponse(true,"Session deleted successfully",null),HttpStatus.OK);
     }
 }

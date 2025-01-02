@@ -18,7 +18,7 @@ public class SessionResponseDTO
 
     }
 
-    public SessionResponseDTO(int id, LocalTime loginTime, LocalTime logoutTime, int noOfBreaks, Duration sessionTime, Duration breakTime)
+    public SessionResponseDTO(int id, LocalTime loginTime, LocalTime logoutTime, int noOfBreaks, Duration sessionTime, Duration breakTime,String email)
     {
         this.id = id;
         this.loginTime = loginTime;
@@ -26,6 +26,7 @@ public class SessionResponseDTO
         this.noOfBreaks = noOfBreaks;
         this.sessionTime = sessionTime;
         this.breakTime = breakTime;
+        this.email=email;
     }
 
     public int getId()
@@ -86,5 +87,15 @@ public class SessionResponseDTO
     public void setBreakTime(Duration breakTime)
     {
         this.breakTime = breakTime;
+    }
+
+    public String getEmail()
+    {
+        return email;
+    }
+
+    public void setEmail(String email)
+    {
+        this.email = email;
     }
 }
