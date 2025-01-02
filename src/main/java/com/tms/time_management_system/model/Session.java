@@ -17,7 +17,6 @@ public class Session
     private int noOfBreaks;
     private Duration sessionTime;
     private LocalTime pauseTime;
-    private LocalTime playTime;
     private Duration breakTime;
 
     @ManyToMany
@@ -26,7 +25,7 @@ public class Session
     public Session() {
     }
 
-    public Session(Integer id, LocalTime loginTime, LocalTime logoutTime, int noOfBreaks, Duration sessionTime, LocalTime pauseTime, LocalTime playTime, Duration breakTime, List<User> users)
+    public Session(Integer id, LocalTime loginTime, LocalTime logoutTime, int noOfBreaks, Duration sessionTime, LocalTime pauseTime, Duration breakTime, List<User> users)
     {
         this.id = id;
         this.loginTime = loginTime;
@@ -34,7 +33,6 @@ public class Session
         this.noOfBreaks = noOfBreaks;
         this.sessionTime = sessionTime;
         this.pauseTime = pauseTime;
-        this.playTime = playTime;
         this.breakTime = breakTime;
         this.users = users;
     }
@@ -107,16 +105,6 @@ public class Session
     public void setPauseTime(LocalTime pauseTime)
     {
         this.pauseTime = pauseTime;
-    }
-
-    public LocalTime getPlayTime()
-    {
-        return playTime;
-    }
-
-    public void setPlayTime(LocalTime playTime)
-    {
-        this.playTime = playTime;
     }
 
     public Duration getBreakTime()
