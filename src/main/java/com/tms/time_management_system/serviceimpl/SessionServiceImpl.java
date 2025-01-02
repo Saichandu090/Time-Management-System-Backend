@@ -1,7 +1,7 @@
 package com.tms.time_management_system.serviceimpl;
 
 import com.tms.time_management_system.dto.JsonResponse;
-import com.tms.time_management_system.dto.LogoutDTO;
+import com.tms.time_management_system.dto.SessionResponseDTO;
 import com.tms.time_management_system.exception.UserNotFoundException;
 import com.tms.time_management_system.model.Session;
 import com.tms.time_management_system.model.User;
@@ -45,7 +45,6 @@ public class SessionServiceImpl implements SessionService
     {
         Session session= sessionRepository.findById(loginId).orElseThrow(()->new RuntimeException("Session not Found"));
         session.setLogoutTime(LocalTime.now());
-
         Duration getSessionTime=Duration.between(session.getLoginTime(),LocalTime.now());
         session.setSessionTime(getSessionTime);
         sessionRepository.save(session);
@@ -74,5 +73,13 @@ public class SessionServiceImpl implements SessionService
         }
         Session rs=sessionRepository.save(session);
         return new ResponseEntity<>(new JsonResponse(true,"Breaktime ended",null),HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> getAllSessions()
+    {
+        List<Session> allSessions=sessionRepository.findAll();
+        List<SessionResponseDTO> responseDTOS=allSessions.stream().map(s->new SessionResponseDTO(s.getId(),s.getLoginTime(),s.getLogoutTime(),s.getNoOfBreaks(),s.getSessionTime(),s.getBreakTime())).toList();
+        return new ResponseEntity<>(new JsonResponse(true,"All sessions Retrieved",responseDTOS),HttpStatus.OK);
     }
 }

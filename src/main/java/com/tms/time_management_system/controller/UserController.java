@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,6 +66,17 @@ public class UserController
         if(userDetails!=null)
         {
             return sessionService.playSession(logoutDTO.getLoginId());
+        }
+        return new ResponseEntity<>(new JsonResponse(false,"Request Failed",null), HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/getUserSessions")
+    public ResponseEntity<?> getAllSessions(@RequestHeader("Authorization")String authHeader)
+    {
+        UserDetails userDetails=userMapper.validateUser(authHeader);
+        if(userDetails!=null && userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN")))
+        {
+            return sessionService.getAllSessions();
         }
         return new ResponseEntity<>(new JsonResponse(false,"Request Failed",null), HttpStatus.BAD_REQUEST);
     }

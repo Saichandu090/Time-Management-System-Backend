@@ -13,4 +13,6 @@ public interface SessionService
     ResponseEntity<?> pauseSession(Integer loginId);
 
     ResponseEntity<?> playSession(Integer loginId);
+
+    ResponseEntity<?> getAllSessions();
 }

@@ -1,50 +1,39 @@
-package com.tms.time_management_system.model;
-
-import jakarta.persistence.*;
+package com.tms.time_management_system.dto;
 
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.List;
 
-@Entity
-public class Session
+public class SessionResponseDTO
 {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
     private LocalTime loginTime;
     private LocalTime logoutTime;
     private int noOfBreaks;
     private Duration sessionTime;
-    private LocalTime pauseTime;
     private Duration breakTime;
+    private String email;
 
-    @ManyToMany
-    private List<User> users;
-
-    public Session()
+    public SessionResponseDTO()
     {
 
     }
 
-    public Session(Integer id, LocalTime loginTime, LocalTime logoutTime, int noOfBreaks, Duration sessionTime, LocalTime pauseTime, Duration breakTime, List<User> users)
+    public SessionResponseDTO(int id, LocalTime loginTime, LocalTime logoutTime, int noOfBreaks, Duration sessionTime, Duration breakTime)
     {
         this.id = id;
         this.loginTime = loginTime;
         this.logoutTime = logoutTime;
         this.noOfBreaks = noOfBreaks;
         this.sessionTime = sessionTime;
-        this.pauseTime = pauseTime;
         this.breakTime = breakTime;
-        this.users = users;
     }
 
-    public Integer getId()
+    public int getId()
     {
         return id;
     }
 
-    public void setId(Integer id)
+    public void setId(int id)
     {
         this.id = id;
     }
@@ -69,16 +58,6 @@ public class Session
         this.logoutTime = logoutTime;
     }
 
-    public List<User> getUsers()
-    {
-        return users;
-    }
-
-    public void setUsers(List<User> users)
-    {
-        this.users = users;
-    }
-
     public int getNoOfBreaks()
     {
         return noOfBreaks;
@@ -97,16 +76,6 @@ public class Session
     public void setSessionTime(Duration sessionTime)
     {
         this.sessionTime = sessionTime;
-    }
-
-    public LocalTime getPauseTime()
-    {
-        return pauseTime;
-    }
-
-    public void setPauseTime(LocalTime pauseTime)
-    {
-        this.pauseTime = pauseTime;
     }
 
     public Duration getBreakTime()
