@@ -83,8 +83,7 @@ public class SessionServiceImpl implements SessionService
         List<Session> allSessions=sessionRepository.findAll();
         List<SessionResponseDTO> responseDTOS = allSessions.stream()
                 .map(s -> {
-                    User user = s.getUsers().stream().findFirst()
-                            .orElseThrow(() -> new RuntimeException("User not found"));
+                    User user = s.getUsers().stream().findFirst().orElseThrow(() -> new RuntimeException("User not found"));
                     return new SessionResponseDTO(
                             s.getId(),
                             s.getLoginTime(),

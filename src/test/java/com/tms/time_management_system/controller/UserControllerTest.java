@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tms.time_management_system.dto.JsonResponse;
 import com.tms.time_management_system.dto.UserLogin;
 import com.tms.time_management_system.dto.UserRegisterDTO;
-import com.tms.time_management_system.service.UserService;
+import com.tms.time_management_system.serviceimpl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -30,7 +30,7 @@ class UserControllerTest
     ObjectMapper objectMapper;
 
     @MockBean
-    UserService userService;
+    UserServiceImpl userService;
 
     @Test
     public void registerUserTest() throws Exception

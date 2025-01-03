@@ -1,5 +1,6 @@
 package com.tms.time_management_system.controller;
 
+import com.tms.time_management_system.mapper.UserMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +14,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class TestSecurityConfig
 {
+    @Bean
+    public UserMapper userMapper() {
+        return new UserMapper(); // Replace with appropriate initialization logic
+    }
+
     @Bean(name = "testAuthenticationManager")
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception
     {
